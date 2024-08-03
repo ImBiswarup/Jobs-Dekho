@@ -3,31 +3,61 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('');
 
+  const router = useRouter()
+
+  const handleSearch = () => {
+    console.log("Search triggered with:", search, filter);
+
+    // const validFilter = filter.trim() || 'all'; 
+    // const validSearch = search.trim();
+
+    // router.push({
+    //   pathname: `/work/jobs`,
+    //   query: { q: search },
+    // });
+    router.push(`/work/${filter}`);
+  };
   return (
     <nav className="bg-blue-600 p-4 shadow-lg">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center">
           <Image src="/logo.svg" alt="Logo" width={30} height={30} />
           <div className="text-white text-2xl font-bold ml-2">
-            <Link href="/">Flowbite</Link>
+            <Link className='sm:block hidden' href="/">Flowbite</Link>
           </div>
         </div>
-
-        <div className="flex-1 mx-4">
+        <div className="flex items-center w-full max-w-lg mx-4 border-2 border-gray-300 rounded overflow-hidden focus-within:border-blue-500">
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="p-2 bg-gray-100 text-black border-none focus:outline-none absolute"
+          >
+            <option value="">All</option>
+            <option value="Internship">Internship</option>
+            <option value="jobs">Job</option>
+          </select>
           <input
             type="text"
             placeholder="Search..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full p-2 rounded border-2 border-gray-300 focus:border-blue-500 focus:outline-none text-black"
+            className="flex-1 p-2 focus:outline-none text-black text-center"
           />
+          <button
+            onClick={handleSearch}
+            className="p-2 bg-blue-500 text-white focus:outline-none"
+          >
+            Search
+          </button>
         </div>
-        
+
         <div className="hidden md:flex space-x-6 items-center">
           <Link href="/" className="text-white hover:text-gray-300 transition duration-200">Home</Link>
           <Link href="/about" className="text-white hover:text-gray-300 transition duration-200">About</Link>
