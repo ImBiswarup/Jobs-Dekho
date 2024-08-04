@@ -56,6 +56,7 @@ export default function Navbar() {
           <Link href="/about" className="text-white hover:text-gray-300 transition duration-200">About</Link>
           <Link href="/services" className="text-white hover:text-gray-300 transition duration-200">Services</Link>
           <Link href="/contact" className="text-white hover:text-gray-300 transition duration-200">Contact</Link>
+          <Link href="/create-account" className="text-white hover:text-gray-300 transition duration-200">Create Account</Link>
         </div>
 
         <div className="md:hidden">
