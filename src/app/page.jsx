@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import Navbar from './components/Navbar';
+import Navbar from '../components/Navbar';
 import Link from 'next/link';
 import { Data } from '../../public/data';
 import Image from 'next/image';
