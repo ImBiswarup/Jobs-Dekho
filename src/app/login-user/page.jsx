@@ -16,11 +16,11 @@ const SignupPage = () => {
             setError(null);
             setSuccess(null);
 
-            const response = await axios.post('/api/user/signup', {
-                name, email, password
+            const response = await axios.post('/api/user/login', {
+                email, password
             });
 
-            setSuccess("User created successfully");
+            setSuccess("User logged in successfully");
             console.log(response);
 
         } catch (error) {
@@ -31,13 +31,6 @@ const SignupPage = () => {
 
     return (
         <div className="flex flex-col items-center justify-center gap-y-3 p-6">
-            <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Name"
-                className="p-2 text-black border border-gray-300 rounded"
-            />
             <input
                 type="email"
                 value={email}
@@ -56,16 +49,15 @@ const SignupPage = () => {
                 onClick={signupHandler}
                 className="px-4 py-2 bg-blue-600 text-white rounded"
             >
-                Create
+                login
             </button>
 
-
             <Link
-                to='/login-user'
-                href="/login-user"
+                to='/create-account'
+                href="/create-account"
                 className="px-4 py-2 bg-blue-600 text-white rounded"
             >
-               login page
+                create account page
             </Link>
 
             {error && <p className="text-red-500 mt-2">{error}</p>}
