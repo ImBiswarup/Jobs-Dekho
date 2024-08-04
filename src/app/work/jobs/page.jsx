@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 const JobPage = () => {
 
-  const filteredData = Data.filter(job => job.details != "Internship");
+  const filteredData = Data.filter(job => job.type != "Internship");
 
   return (
     <>
@@ -18,7 +18,8 @@ const JobPage = () => {
               href={`/work/jobs/${job.id}`}
               key={job.id}
               passHref
-            >              <div className="w-full max-w-4xl bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 cursor-pointer dark:bg-gray-800 dark:border-gray-700">
+            >
+              <div className="w-full max-w-4xl bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 cursor-pointer dark:bg-gray-800 dark:border-gray-700">
                 <Image width={100} height={100} className="w-full h-48 object-cover" src='https://res.cloudinary.com/djrdw0sqz/image/upload/v1722104929/yt_v9ab9c.jpg' alt="product image" />
                 <div className="p-6">
                   <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -29,7 +30,7 @@ const JobPage = () => {
                   </p>
                   <div className="flex items-center mt-4">
                     <div className="flex items-center space-x-2">
-                      <a className="text-gray-800 dark:text-gray-200">{job.details}</a>
+                      <a className="text-gray-800 dark:text-gray-200">{job.type}</a>
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-6">

@@ -1,20 +1,19 @@
 "use client";
 
 import React from 'react';
-import Navbar from './components/Navbar';
+import Navbar from '../components/Navbar';
 import Link from 'next/link';
-import { Data } from '../../public/data';
+import { Data } from '../../../public/data';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 
-const HomePage = () => {
+const WorkPage = () => {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
 
   const filteredData = Data
     .filter(job => job.type !== "Internship")
-    .filter(job => job.name.toLowerCase().includes(searchQuery.toLowerCase()) || job.description.toLowerCase().includes(searchQuery.toLowerCase()))
-    .slice(5, 25);
+    .filter(job => job.name.toLowerCase().includes(searchQuery.toLowerCase()) || job.description.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
     <>
@@ -23,7 +22,7 @@ const HomePage = () => {
         {
           filteredData.map((job) => (
             <Link
-              href={job.type === "Internship" ? `/work/internship/${job.id}` : `/work/jobs/${job.id}`}
+              href={`/work/jobs/${job.id}`}
               key={job.id}
               passHref
             >
@@ -56,4 +55,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default WorkPage;
