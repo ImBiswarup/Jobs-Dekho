@@ -1,6 +1,6 @@
 import User from "@/model/user";
 import bcrypt from "bcrypt";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import connectToDB from "@/DB/connection";
 
 export async function POST(request) {
@@ -13,16 +13,16 @@ export async function POST(request) {
         if (!email || !password) {
             return NextResponse.json({
                 msg: "Invalid email or password",
-                status: 400
+                status: false
             });
         }
 
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ email: email });
 
         if (!existingUser) {
             return NextResponse.json({
                 msg: "User not found",
-                status: 400
+                status: false
             });
         }
 
@@ -31,13 +31,13 @@ export async function POST(request) {
         if (!validPassword) {
             return NextResponse.json({
                 msg: "Invalid password",
-                status: 400
+                status: false
             });
         }
 
         return NextResponse.json({
             msg: "Login successful",
-            status: 200,
+            status: true,
             user: {
                 id: existingUser._id,
                 name: existingUser.name,
