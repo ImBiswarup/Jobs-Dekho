@@ -12,17 +12,8 @@ export default function Navbar() {
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('all');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [showSearch, setShowSearch] = useState(true);
 
     const router = useRouter();
-    const pathname = usePathname()
-
-
-    useEffect(() => {
-        if (pathname === "/about" || pathname === "/services" || pathname === "/contact") {
-            setShowSearch(false);
-        }
-    }, [pathname]);
 
     const handleSearch = () => {
         const query = search.trim();
@@ -49,7 +40,7 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className="bg-blue-600 p-4 shadow-lg fixed w-full z-50 top-0">
+            <nav className="bg-blue-600 p- shadow-lg fixed w-full z-50 top-0">
                 <div className="container flex justify-between items-center">
                     <div className="flex items-center">
                         <div className="text-white text-2xl font-bold ml-2">
@@ -57,37 +48,31 @@ export default function Navbar() {
                             <Link href="/" className="hidden sm:block">Jobs Dekhoo</Link>
                         </div>
                     </div>
-
-                    {
-                        showSearch && (
-                            <div className="hidden md:flex rounded w-full overflow-hidden bg-white">
-                                <select
-                                    value={filter}
-                                    onChange={(e) => setFilter(e.target.value)}
-                                    className="p-2.5 text-black border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
-                                >
-                                    <option value="all">All</option>
-                                    <option value="internship">Intern</option>
-                                    <option value="jobs">Job</option>
-                                </select>
-                                <input
-                                    type="text"
-                                    placeholder="Search..."
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    onKeyPress={handleKeyPress}
-                                    className="flex-1 text-black p-2 border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
-                                />
-                                <button
-                                    onClick={handleSearch}
-                                    className="p-2 bg-blue-500 text-white border-none outline-none focus:outline-none hover:bg-blue-700 transition duration-200"
-                                >
-                                    Search
-                                </button>
-                            </div>
-                        )
-                    }
-
+                    <div className="hidden md:flex rounded w-full overflow-hidden bg-white">
+                        <select
+                            value={filter}
+                            onChange={(e) => setFilter(e.target.value)}
+                            className="p-2.5 text-black border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
+                        >
+                            <option value="all">All</option>
+                            <option value="internship">Intern</option>
+                            <option value="jobs">Job</option>
+                        </select>
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                            className="flex-1 text-black p-2 border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
+                        />
+                        <button
+                            onClick={handleSearch}
+                            className="p-2 bg-blue-500 text-white border-none outline-none focus:outline-none hover:bg-blue-700 transition duration-200"
+                        >
+                            Search
+                        </button>
+                    </div>
                     <div className="hidden md:flex space-x-6 items-center">
                         <Link href="/" className="text-white hover:text-gray-300 transition duration-200">Home</Link>
                         <Link href="/about" className="text-white hover:text-gray-300 transition duration-200">About</Link>
@@ -141,43 +126,38 @@ export default function Navbar() {
                     </div>
                 )}
 
-
-                {
-                    showSearch && (
-                        <div className="md:hidden mt-16 flex justify-center items-center w-full border-2 rounded overflow-hidden bg-gray-200">
-                            <select
-                                value={filter}
-                                onChange={(e) => setFilter(e.target.value)}
-                                className="p-2 text-black border-none outline-none focus:outline-none bg-gray-100 hover:bg-gray-200 transition duration-200"
-                            >
-                                <option value="all">All</option>
-                                <option value="internship">Intern</option>
-                                <option value="jobs">Job</option>
-                            </select>
-                            <input
-                                type="text"
-                                placeholder="Search..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                onKeyPress={handleKeyPress}
-                                className="flex-1 p-2 text-black border-none outline-none focus:outline-none bg-gray-100 hover:bg-gray-200 transition duration-200"
-                            />
-                            <button
-                                onClick={handleSearch}
-                                className="p-2 bg-blue-500 text-white border-none outline-none focus:outline-none hover:bg-blue-700 transition duration-200"
-                            >
-                                Search
-                            </button>
-                        </div>
-                    )
-                }
-
+                <div className="md:hidden mt-16 flex justify-center items-center w-full border-2 rounded overflow-hidden bg-gray-200">
+                    <select
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                        className="p-2.5 text-black border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
+                    >
+                        <option value="all">All</option>
+                        <option value="internship">Intern</option>
+                        <option value="jobs">Job</option>
+                    </select>
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        className="flex-1 text-black p-2 border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
+                    />
+                    <button
+                        onClick={handleSearch}
+                        className="p-2 bg-blue-500 text-white border-none outline-none focus:outline-none hover:bg-blue-700 transition duration-200"
+                    >
+                        Search
+                    </button>
+                </div>
             </nav>
 
-
-            <Modal isOpen={isModalOpen} onClose={toggleModal}>
-                <AuthForm isSignup={isSignup} toggleAuthMode={toggleAuthMode} closeModal={toggleModal} />
-            </Modal>
+            {isModalOpen && (
+                <Modal onClose={toggleModal}>
+                    <AuthForm isSignup={isSignup} toggleAuthMode={toggleAuthMode} />
+                </Modal>
+            )}
         </>
     );
 }

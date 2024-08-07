@@ -16,7 +16,7 @@ const ServicesPage = () => {
                     <div className="flex flex-wrap -m-4">
                         {Services.map((item, index) => (
                             <div key={index} className="p-4 lg:w-1/3 md:w-1/2 w-full">
-                                <div className="bg-transparent transform transition-all hover:scale-105 hover:shadow-xl h-full flex items-center hover:border-gray-800 p-6 rounded-lg hover:bg-gray-800">
+                                <div className="bg-transparent transform transition-all hover:scale-105 hover:shadow-xl h-full flex items-center hover:border-gray-800 p-6 rounded-lg hover:bg-blue-700">
                                     <Image
                                         alt={item.name}
                                         className="w-20 h-20 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
