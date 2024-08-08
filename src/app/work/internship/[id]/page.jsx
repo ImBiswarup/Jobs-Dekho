@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { Data } from '../../../../../public/data';
 import Link from 'next/link';
@@ -11,7 +13,7 @@ const singleJob = ({ params }) => {
     return (
         <>
             <Navbar />
-            <div className="container mx-auto py-18 px-6 mt-8">
+            <div className="flex flex-col items-center w-full justify-center gap-6 p-4 mt-[7.5rem] md:mt-[5.2rem]">
                 <div className="bg-gray-100 rounded-lg shadow-lg overflow-hidden mb-12">
                     <Image
                         alt="job image"
@@ -29,14 +31,14 @@ const singleJob = ({ params }) => {
                         <div className="mb-6">
                             <span className="text-xl font-medium text-gray-900">Type: {job.type}</span>
                         </div>
-                        <a href={job.link} className="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg px-6 py-3 transition duration-200">
+                        <Link href={'#'} className="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg px-6 py-3 transition duration-200">
                             Apply Now
-                        </a>
+                        </Link>
                     </div>
                 </div>
 
                 <div className="related-jobs">
-                    <h2 className="text-3xl font-semibold mb-8 text-gray-900">Related Jobs</h2>
+                    <h2 className="text-3xl font-semibold mb-8 text-gray-900">Related Internships</h2>
                     <div className="flex flex-wrap -m-4">
                         {relatedJobs.map((relatedJob) => (
                             <div key={relatedJob.id} className="lg:w-1/3 sm:w-1/2 p-4">

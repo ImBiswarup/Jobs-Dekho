@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import Navbar from '../../../components/Navbar';
 import Link from 'next/link';
@@ -30,7 +32,7 @@ const JobPage = () => {
                   </p>
                   <div className="flex items-center mt-4">
                     <div className="flex items-center space-x-2">
-                      <a className="text-gray-800 dark:text-gray-200">{job.type}</a>
+                      <p className="text-gray-800 dark:text-gray-200">{job.type}</p>
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-6">

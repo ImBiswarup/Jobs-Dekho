@@ -23,6 +23,7 @@ const ServicesPage = () => {
                                         src={item.image}
                                         width={80}
                                         height={80}
+                                        priority={true}
                                     />
                                     <div className="flex-grow">
                                         <h2 className="text-white text-xl font-semibold mb-2">{item.name}</h2>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Modal from './Modal';
 import AuthForm from './AuthForm';
 
@@ -12,8 +12,13 @@ export default function Navbar() {
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('all');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
     const router = useRouter();
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const handleSearch = () => {
         const query = search.trim();
@@ -26,60 +31,64 @@ export default function Navbar() {
         }
     };
 
-    const toggleModal = () => {
-        setIsModalOpen(!isModalOpen);
+    const toggleModal = (signup = false) => {
+        setIsSignup(signup);
+        setIsModalOpen(true);
     };
 
-    const toggleAuthMode = () => {
-        setIsSignup(!isSignup);
+    const closeModal = () => {
+        setIsModalOpen(false);
     };
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    if (!mounted) return null;
+
     return (
         <>
-            <nav className="bg-blue-600 p- shadow-lg fixed w-full z-50 top-0">
-                <div className="container flex justify-between items-center">
-                    <div className="flex items-center">
-                        <div className="text-white text-2xl font-bold ml-2">
-                            <Link href="/" className="sm:hidden block">JD</Link>
-                            <Link href="/" className="hidden sm:block">Jobs Dekhoo</Link>
+            <nav className="bg-blue-600 p-4 shadow-lg fixed w-full z-50 top-0">
+                <div className="container mx-auto flex justify-between items-center">
+                    <div className="flex items-center space-x-4">
+                        <div className="text-white text-2xl font-bold">
+                            <Link href="/">Jobs Dekhoo</Link>
+                        </div>
+                        <div className="hidden md:flex flex-1 justify-center items-center">
+                            <div className="flex rounded-lg overflow-hidden shadow-md bg-white w-full max-w-xl">
+                                <select
+                                    value={filter}
+                                    onChange={(e) => setFilter(e.target.value)}
+                                    className="p-2.5 text-black border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
+                                >
+                                    <option value="all">All</option>
+                                    <option value="internship">Intern</option>
+                                    <option value="jobs">Job</option>
+                                </select>
+                                <input
+                                    type="text"
+                                    placeholder="Search..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    onKeyPress={handleKeyPress}
+                                    className="flex-1 text-black p-2 border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
+                                />
+                                <button
+                                    onClick={handleSearch}
+                                    className="p-2 bg-blue-500 text-white border-none outline-none focus:outline-none hover:bg-blue-700 transition duration-200"
+                                >
+                                    Search
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div className="hidden md:flex rounded w-full overflow-hidden bg-white">
-                        <select
-                            value={filter}
-                            onChange={(e) => setFilter(e.target.value)}
-                            className="p-2.5 text-black border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
-                        >
-                            <option value="all">All</option>
-                            <option value="internship">Intern</option>
-                            <option value="jobs">Job</option>
-                        </select>
-                        <input
-                            type="text"
-                            placeholder="Search..."
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                            className="flex-1 text-black p-2 border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
-                        />
-                        <button
-                            onClick={handleSearch}
-                            className="p-2 bg-blue-500 text-white border-none outline-none focus:outline-none hover:bg-blue-700 transition duration-200"
-                        >
-                            Search
-                        </button>
-                    </div>
-                    <div className="hidden md:flex space-x-6 items-center">
+                    <div className="hidden md:flex items-center space-x-4">
                         <Link href="/" className="text-white hover:text-gray-300 transition duration-200">Home</Link>
                         <Link href="/about" className="text-white hover:text-gray-300 transition duration-200">About</Link>
                         <Link href="/services" className="text-white hover:text-gray-300 transition duration-200">Services</Link>
                         <Link href="/contact" className="text-white hover:text-gray-300 transition duration-200">Contact</Link>
                         <button
-                            onClick={toggleModal}
+                            onClick={() => toggleModal(true)}
                             className="text-white hover:text-gray-300 transition duration-200"
                         >
                             Create Account
@@ -117,7 +126,7 @@ export default function Navbar() {
                             <Link href="/services" className="block px-4 py-2 text-white hover:bg-blue-800 transition duration-200">Services</Link>
                             <Link href="/contact" className="block px-4 py-2 text-white hover:bg-blue-800 transition duration-200">Contact</Link>
                             <button
-                                onClick={toggleModal}
+                                onClick={() => toggleModal(true)}
                                 className="block px-4 py-2 text-white hover:bg-blue-800 transition duration-200 w-full text-left"
                             >
                                 Create Account
@@ -126,38 +135,38 @@ export default function Navbar() {
                     </div>
                 )}
 
-                <div className="md:hidden mt-16 flex justify-center items-center w-full border-2 rounded overflow-hidden bg-gray-200">
-                    <select
-                        value={filter}
-                        onChange={(e) => setFilter(e.target.value)}
-                        className="p-2.5 text-black border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
-                    >
-                        <option value="all">All</option>
-                        <option value="internship">Intern</option>
-                        <option value="jobs">Job</option>
-                    </select>
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                        className="flex-1 text-black p-2 border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
-                    />
-                    <button
-                        onClick={handleSearch}
-                        className="p-2 bg-blue-500 text-white border-none outline-none focus:outline-none hover:bg-blue-700 transition duration-200"
-                    >
-                        Search
-                    </button>
+                <div className="md:hidden mt-4 flex justify-center items-center w-full px-4">
+                    <div className="flex rounded-lg overflow-hidden shadow-md bg-white w-full">
+                        <select
+                            value={filter}
+                            onChange={(e) => setFilter(e.target.value)}
+                            className="p-2.5 text-black border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
+                        >
+                            <option value="all">All</option>
+                            <option value="internship">Intern</option>
+                            <option value="jobs">Job</option>
+                        </select>
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                            className="flex-1 text-black p-2 border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
+                        />
+                        <button
+                            onClick={handleSearch}
+                            className="p-2 bg-blue-500 text-white border-none outline-none focus:outline-none hover:bg-blue-700 transition duration-200"
+                        >
+                            Search
+                        </button>
+                    </div>
                 </div>
             </nav>
 
-            {isModalOpen && (
-                <Modal onClose={toggleModal}>
-                    <AuthForm isSignup={isSignup} toggleAuthMode={toggleAuthMode} />
-                </Modal>
-            )}
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+                <AuthForm isSignup={isSignup} toggleAuthMode={() => setIsSignup(!isSignup)} closeModal={closeModal} />
+            </Modal>
         </>
     );
 }

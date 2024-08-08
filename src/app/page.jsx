@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Link from 'next/link';
 import { Data } from '../../public/data';
@@ -10,11 +10,16 @@ import { useSearchParams } from 'next/navigation';
 const HomePage = () => {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
+  const [filteredData, setFilteredData] = useState([]);
 
-  const filteredData = Data
-    .filter(job => job.type !== "Internship")
-    .filter(job => job.name.toLowerCase().includes(searchQuery.toLowerCase()) || job.description.toLowerCase().includes(searchQuery.toLowerCase()))
-    .slice(5, 25);
+  useEffect(() => {
+    const result = Data
+      .filter(job => job.type !== "Internship")
+      .filter(job => job.name.toLowerCase().includes(searchQuery.toLowerCase()) || job.description.toLowerCase().includes(searchQuery.toLowerCase()))
+      .slice(5, 25);
+
+    setFilteredData(result);
+  }, [searchQuery]);
 
   return (
     <>
@@ -40,9 +45,9 @@ const HomePage = () => {
                     <span className="text-lg font-medium text-gray-900 dark:text-white">{job.duration}</span>
                   </div>
                   <div className="flex items-center justify-between mt-6">
-                    <a href={job.link} className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
+                    <Link href={""} className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
                       Apply
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

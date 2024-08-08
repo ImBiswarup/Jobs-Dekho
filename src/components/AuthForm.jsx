@@ -1,6 +1,7 @@
 "use client";
 
 import axios from 'axios';
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 const AuthForm = ({ isSignup, toggleAuthMode, closeModal }) => {
@@ -31,7 +32,7 @@ const AuthForm = ({ isSignup, toggleAuthMode, closeModal }) => {
                 alert(response.data.msg);
             }
         } catch (error) {
-            console.error("Error:", error.response.data.msg);
+            console.error("Error:", error.response?.data?.msg || error.message);
             alert("An error occurred. Please try again.");
         }
     };
@@ -95,13 +96,13 @@ const AuthForm = ({ isSignup, toggleAuthMode, closeModal }) => {
                 </button>
                 <p className="text-sm font-light text-gray-400">
                     {isSignup ? 'Already have an account?' : "Don't have an account?"}
-                    <a
+                    <Link
                         href="#"
                         onClick={toggleAuthMode}
                         className="font-medium text-blue-500 hover:underline ml-1"
                     >
                         {isSignup ? 'Login here' : 'Create an account'}
-                    </a>
+                    </Link>
                 </p>
             </form>
         </div>
