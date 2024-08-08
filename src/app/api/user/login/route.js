@@ -2,6 +2,7 @@ import User from "@/model/user";
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 import connectToDB from "@/DB/connection";
+import jwt from "jsonwebtoken";
 
 export async function POST(request) {
     try {
@@ -17,7 +18,7 @@ export async function POST(request) {
             });
         }
 
-        const existingUser = await User.findOne({ email: email });
+        const existingUser = await User.findOne({ email });
 
         if (!existingUser) {
             return NextResponse.json({
@@ -35,15 +36,27 @@ export async function POST(request) {
             });
         }
 
-        return NextResponse.json({
+        const userPayload = {
+            id: existingUser._id,
+            name: existingUser.name,
+            email: existingUser.email,
+            role: existingUser.role,
+        };
+
+        const token = jwt.sign(userPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        existingUser.token = token;
+        await existingUser.save();
+
+        const response = NextResponse.json({
             msg: "Login successful",
             status: true,
-            user: {
-                id: existingUser._id,
-                name: existingUser.name,
-                email: existingUser.email
-            }
+            token,
         });
+
+        response.cookies.set('token', token, { httpOnly: true, maxAge: 3600 });
+
+        return response;
 
     } catch (error) {
         console.error("Error in API:", error);

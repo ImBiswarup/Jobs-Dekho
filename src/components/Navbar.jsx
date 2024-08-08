@@ -91,7 +91,7 @@ export default function Navbar() {
                             onClick={() => toggleModal(true)}
                             className="text-white hover:text-gray-300 transition duration-200"
                         >
-                            Create Account
+                            Register
                         </button>
                     </div>
 
@@ -129,7 +129,7 @@ export default function Navbar() {
                                 onClick={() => toggleModal(true)}
                                 className="block px-4 py-2 text-white hover:bg-blue-800 transition duration-200 w-full text-left"
                             >
-                                Create Account
+                                Register
                             </button>
                         </div>
                     </div>

@@ -3,24 +3,29 @@
 import axios from 'axios';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 
 const AuthForm = ({ isSignup, toggleAuthMode, closeModal }) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [role, setRole] = useState("client");
 
     const handleAuth = async () => {
         try {
-            if (!email || !password || (isSignup && !name)) {
+            if (!email || !password || !role || (isSignup && !name)) {
                 alert("Please provide all valid information");
                 return;
             }
 
             const url = isSignup ? '/api/user/signup' : '/api/user/login';
-            const data = isSignup ? { name, email, password } : { email, password };
+            const data = isSignup ? { name, email, password, role } : { email, password };
             const response = await axios.post(url, data);
 
+            console.log(response.data);
+
             if (response.data.status) {
+                Cookies.set('token', response.data.token, { expires: 1 });
                 if (isSignup) {
                     alert("Signup successful. Please login.");
                     toggleAuthMode();
@@ -44,20 +49,57 @@ const AuthForm = ({ isSignup, toggleAuthMode, closeModal }) => {
             </h1>
             <form className="space-y-6">
                 {isSignup && (
-                    <div>
-                        <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-200">
-                            Your Name
-                        </label>
-                        <input
-                            type="text"
-                            id="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Enter your name"
-                            className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            required
-                        />
-                    </div>
+                    <>
+                        <div>
+                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-200">
+                                Your Name
+                            </label>
+                            <input
+                                type="text"
+                                id="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Enter your name"
+                                className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-200">
+                                Select Role
+                            </label>
+                            <div className="flex items-center space-x-4">
+                                <div>
+                                    <input
+                                        type="radio"
+                                        id="client"
+                                        name="role"
+                                        value="client"
+                                        checked={role === "client"}
+                                        onChange={(e) => setRole(e.target.value)}
+                                        className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                    />
+                                    <label htmlFor="client" className="ml-2 text-sm font-medium text-gray-200">
+                                        Client
+                                    </label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        id="recruter"
+                                        name="role"
+                                        value="recruter"
+                                        checked={role === "recruter"}
+                                        onChange={(e) => setRole(e.target.value)}
+                                        className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                                    />
+                                    <label htmlFor="recruter" className="ml-2 text-sm font-medium text-gray-200">
+                                        Recruiter
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </>
                 )}
                 <div>
                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-200">

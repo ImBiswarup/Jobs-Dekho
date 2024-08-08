@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Data } from '../../public/data';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 const HomePage = () => {
   const searchParams = useSearchParams();
@@ -20,6 +21,10 @@ const HomePage = () => {
 
     setFilteredData(result);
   }, [searchQuery]);
+
+  const token = Cookies.get('token')
+
+  console.log('cookies: ', token)
 
   return (
     <>
@@ -45,7 +50,7 @@ const HomePage = () => {
                     <span className="text-lg font-medium text-gray-900 dark:text-white">{job.duration}</span>
                   </div>
                   <div className="flex items-center justify-between mt-6">
-                    <Link href={""} className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
+                    <Link href='#' className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
                       Apply
                     </Link>
                   </div>
