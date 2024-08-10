@@ -1,14 +1,34 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Data } from '../../../../../public/data';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
+import ApplyModal from '@/components/ApplyModal'; 
 
-const singleJob = ({ params }) => {
-    const job = Data.find((job) => job.id === params.id);
-    const relatedJobs = Data.filter((relatedJob) => relatedJob.type === job.type && relatedJob.id !== job.id).slice(0, 10);
+const SingleJob = ({ params }) => {
+    const [job, setJob] = useState(null);
+    const [relatedJobs, setRelatedJobs] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false); 
+
+    useEffect(() => {
+        const selectedJob = Data.find((job) => job.id === params.id);
+        setJob(selectedJob);
+
+        const related = Data.filter(
+            (relatedJob) => relatedJob.type === selectedJob?.type && relatedJob.id !== selectedJob.id
+        ).slice(0, 10);
+        setRelatedJobs(related);
+    }, [params.id]);
+
+    const handleApply = async (formData) => {
+        console.log('Applying for job:', formData);
+        alert('Job application submitted successfully');
+        setIsModalOpen(false);
+    };
+
+    if (!job) return null;
 
     return (
         <>
@@ -18,9 +38,10 @@ const singleJob = ({ params }) => {
                     <Image
                         alt="job image"
                         className="w-full h-64 object-cover"
-                        src='https://res.cloudinary.com/djrdw0sqz/image/upload/v1722104929/yt_v9ab9c.jpg'
+                        src="https://res.cloudinary.com/djrdw0sqz/image/upload/v1722104929/yt_v9ab9c.jpg"
                         width={1200}
                         height={400}
+                        priority={true}
                     />
                     <div className="p-8">
                         <h2 className="text-4xl font-bold mb-6 text-gray-900">{job.name}</h2>
@@ -31,9 +52,12 @@ const singleJob = ({ params }) => {
                         <div className="mb-6">
                             <span className="text-xl font-medium text-gray-900">Type: {job.type}</span>
                         </div>
-                        <Link href={'#'} className="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg px-6 py-3 transition duration-200">
+                        <button
+                            onClick={() => setIsModalOpen(true)} 
+                            className="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg px-6 py-3 transition duration-200"
+                        >
                             Apply Now
-                        </Link>
+                        </button>
                     </div>
                 </div>
 
@@ -42,19 +66,31 @@ const singleJob = ({ params }) => {
                     <div className="flex flex-wrap -m-4">
                         {relatedJobs.map((relatedJob) => (
                             <div key={relatedJob.id} className="lg:w-1/3 sm:w-1/2 p-4">
-                                <Link href={relatedJob.type === "Internship" ? `/work/internship/${relatedJob.id}` : `/work/jobs/${relatedJob.id}`} passHref>
+                                <Link
+                                    href={relatedJob.type === "Internship"
+                                        ? `/work/internship/${relatedJob.id}`
+                                        : `/work/jobs/${relatedJob.id}`}
+                                    passHref
+                                >
                                     <div className="relative rounded-lg overflow-hidden shadow-lg bg-white cursor-pointer transform hover:scale-105 transition-transform duration-300">
                                         <Image
                                             alt="related job image"
                                             className="w-full h-48 object-cover"
-                                            src='https://res.cloudinary.com/djrdw0sqz/image/upload/v1722104929/yt_v9ab9c.jpg'
+                                            src="https://res.cloudinary.com/djrdw0sqz/image/upload/v1722104929/yt_v9ab9c.jpg"
                                             width={600}
                                             height={360}
+                                            priority={true}
                                         />
                                         <div className="px-6 py-8 bg-gradient-to-t from-black via-transparent to-transparent absolute inset-0 flex flex-col justify-end">
-                                            <h2 className="tracking-widest text-sm font-medium text-indigo-400 mb-1">{relatedJob.type}</h2>
-                                            <h1 className="text-xl font-semibold text-white mb-2">{relatedJob.name}</h1>
-                                            <p className="text-white">{relatedJob.description}</p>
+                                            <h2 className="tracking-widest text-sm font-medium text-indigo-400 mb-1">
+                                                {relatedJob.type}
+                                            </h2>
+                                            <h1 className="text-xl font-semibold text-white mb-2">
+                                                {relatedJob.name}
+                                            </h1>
+                                            <p className="text-white">
+                                                {relatedJob.description}
+                                            </p>
                                         </div>
                                     </div>
                                 </Link>
@@ -63,8 +99,13 @@ const singleJob = ({ params }) => {
                     </div>
                 </div>
             </div>
+
+            <ApplyModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+            />
         </>
     );
 };
 
-export default singleJob;
+export default SingleJob;

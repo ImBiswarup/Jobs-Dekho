@@ -17,12 +17,16 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         required: true,
-        enum: ["client", "recruter"],
-        default: "client"
+        enum: ["client", "recruiter"],
+        default: "client",
     },
     token: {
         type: String,
     },
+    applied: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Job',
+    }],
 }, {
     timestamps: true,
 });

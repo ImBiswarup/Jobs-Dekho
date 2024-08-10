@@ -7,10 +7,9 @@ export async function POST(request) {
     try {
         await connectToDB(process.env.MONGO_URI);
 
-        const reqBody = await request.json();  // Correctly parse the JSON body
+        const reqBody = await request.json();
         const { name, type, duration, description, tags } = reqBody;
 
-        // Validate required fields
         if (!name || !type || !duration || !description || !tags) {
             return NextResponse.json({
                 msg: "All fields are required.",
@@ -18,11 +17,12 @@ export async function POST(request) {
             }, { status: 400 });
         }
 
-        // Create and save the job
         const createdJob = await Job.create({
             name, type, duration, description, tags
         });
 
+        console.log(createdJob)
+        
         return NextResponse.json({
             job: createdJob,
             status: true
