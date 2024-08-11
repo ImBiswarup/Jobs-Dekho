@@ -7,11 +7,14 @@ import { Data } from '../../public/data';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const HomePage = () => {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
   const [filteredData, setFilteredData] = useState([]);
+  const [jobs, setJobs] = useState([])
+
 
   useEffect(() => {
     const result = Data
@@ -26,14 +29,30 @@ const HomePage = () => {
 
   console.log('cookies: ', token)
 
+  useEffect(() => {
+    const fetchedJob = async () => {
+      try {
+        const response = await axios.get('/api/jobs/fetch');
+        console.log(response.data)
+        setJobs(response.data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    }
+
+    fetchedJob();
+  },[])
+
+  console.log(jobs)
+
   return (
     <>
       <Navbar />
       <div className='flex flex-col items-center w-full justify-center gap-6 p-4 mt-[7.5rem] md:mt-[5.2rem]'>
         {
-          filteredData.map((job) => (
+          jobs.map((job) => (
             <Link
-              href={job.type === "Internship" ? `/work/internship/${job.id}` : `/work/jobs/${job.id}`}
+              href={job.type === "Internship" ? `/work/internship/${job._id}` : `/work/jobs/${job._id}`}
               key={job.id}
               passHref
             >

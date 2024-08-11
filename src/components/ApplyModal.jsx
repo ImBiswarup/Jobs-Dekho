@@ -2,19 +2,17 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Data } from '../../public/data';
 
-
-const ApplyModal = ({ isOpen, onClose, job, params }) => {
+const ApplyModal = ({ isOpen, onClose, job, params, jobId }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [resume, setResume] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    console.log(params.id)
+    // console.log('Job ID:', params.id);
 
     const handleApply = async () => {
-
         const filteredJob = Data.find((job) => job.id === params.id);
-        console.log(filteredJob);
+        console.log('Filtered Job:', filteredJob);
 
         setIsSubmitting(true);
 
@@ -22,33 +20,29 @@ const ApplyModal = ({ isOpen, onClose, job, params }) => {
             const formData = new FormData();
             formData.append('name', name);
             formData.append('email', email);
-            formData.append('jobId', job.id);
+            formData.append('jobId', jobId);
 
             if (resume) {
                 formData.append('resume', resume);
             }
 
-            const response = await axios.post('/api/apply', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
+            const response = await axios.post('/api/apply', {
+                name, email, jobId
             });
 
-            console.log(response.data);
+            console.log(response.data)
 
             setName('');
             setEmail('');
             setResume(null);
 
-            console.log(name, email, resume);
+            console.log('Submitted Data:', { name, email, resume });
         } catch (error) {
-            console.error('Error applying for job:', error);
+            console.error('Error applying for job:', error.response?.data || error.message);
         } finally {
             setIsSubmitting(false);
         }
     };
-
-
 
     return isOpen ? (
         <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-25">

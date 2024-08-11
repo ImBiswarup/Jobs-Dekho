@@ -7,16 +7,6 @@ export async function GET(request) {
     try {
         await connectToDB(process.env.MONGO_URI);
 
-        const email = request.headers.get("email");
-
-        // const user = await User.findOne({ email }).populate('applied');
-        // if (!user) {
-        //     return NextResponse.json({
-        //         msg: "User not found",
-        //         status: false,
-        //     });
-        // }
-
         const jobs = await Job.find({})
 
         return NextResponse.json(jobs);

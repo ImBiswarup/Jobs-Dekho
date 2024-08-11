@@ -9,6 +9,8 @@ import ApplyModal from '@/components/ApplyModal';
 
 const SingleJob = ({ params }) => {
     const [job, setJob] = useState(null);
+    const [jobs, setJobs] = useState([])
+
     const [relatedJobs, setRelatedJobs] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false); 
 
@@ -28,7 +30,23 @@ const SingleJob = ({ params }) => {
         setIsModalOpen(false);
     };
 
-    if (!job) return null;
+    // if (!job) return null;
+
+    useEffect(() => {
+        const fetchedJob = async () => {
+          try {
+            const response = await axios.get('/api/jobs/fetch');
+            console.log(response.data)
+            setJobs(response.data);
+          } catch (error) {
+            console.error('Error fetching user data:', error);
+          }
+        }
+    
+        fetchedJob();
+      },[])
+    
+      console.log(jobs)
 
     return (
         <>

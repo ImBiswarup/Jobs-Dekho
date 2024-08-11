@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { Data } from '../../../../../public/data';
+import axios from 'axios'; // Import axios
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
@@ -11,24 +11,36 @@ const SingleJob = ({ params }) => {
     const [job, setJob] = useState(null);
     const [relatedJobs, setRelatedJobs] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [jobs, setJobs] = useState([]);
 
     useEffect(() => {
-        const selectedJob = Data.find((job) => job.id === params.id);
-        setJob(selectedJob);
+        const fetchJobs = async () => {
+            try {
+                const response = await axios.get('/api/jobs/fetch');
+                console.log(response.data);
+                setJobs(response.data);
+            } catch (error) {
+                console.error('Error fetching job data:', error);
+            }
+        };
 
-        const related = Data.filter(
-            (relatedJob) => relatedJob.type === selectedJob?.type && relatedJob.id !== selectedJob.id
-        ).slice(0, 10);
-        setRelatedJobs(related);
-    }, [params.id]);
+        fetchJobs();
+    }, []);
 
-    const handleApply = async (formData) => {
-        console.log('Applying for job:', formData);
-        alert('Job application submitted successfully');
-        setIsModalOpen(false);
-    };
+    useEffect(() => {
+        if (jobs.length > 0) {
+            // Match params.id with the _id from the API response
+            const selectedJob = jobs.find((job) => job._id === params.id);
+            setJob(selectedJob);
 
-    if (!job) return null;
+            const related = jobs.filter(
+                (relatedJob) => relatedJob.type === selectedJob?.type && relatedJob._id !== selectedJob._id
+            ).slice(0, 10);
+            setRelatedJobs(related);
+        }
+    }, [params.id, jobs]);
+
+    if (!job) return <div>Loading...</div>;
 
     return (
         <>
@@ -65,11 +77,11 @@ const SingleJob = ({ params }) => {
                     <h2 className="text-3xl font-semibold mb-8 text-gray-900">Related Internships</h2>
                     <div className="flex flex-wrap -m-4">
                         {relatedJobs.map((relatedJob) => (
-                            <div key={relatedJob.id} className="lg:w-1/3 sm:w-1/2 p-4">
+                            <div key={relatedJob._id} className="lg:w-1/3 sm:w-1/2 p-4">
                                 <Link
                                     href={relatedJob.type === "Internship"
-                                        ? `/work/internship/${relatedJob.id}`
-                                        : `/work/jobs/${relatedJob.id}`}
+                                        ? `/work/internship/${relatedJob._id}`
+                                        : `/work/jobs/${relatedJob._id}`}
                                     passHref
                                 >
                                     <div className="relative rounded-lg overflow-hidden shadow-lg bg-white cursor-pointer transform hover:scale-105 transition-transform duration-300">
@@ -100,11 +112,9 @@ const SingleJob = ({ params }) => {
                 </div>
             </div>
 
-            <ApplyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} jobId={job.id} params={params} />
-
+            <ApplyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} jobId={job._id} params={params} />
         </>
     );
 };
 
 export default SingleJob;
-

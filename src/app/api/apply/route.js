@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connectToDB from "@/DB/connection";
 import User from "@/model/user";
-import Job from "@/model/job";  // Import the Job model
+import Job from "@/model/job";  
 
 export async function POST(request) {
     try {
@@ -49,6 +49,7 @@ export async function POST(request) {
         });
 
     } catch (error) {
+        console.error('Server Error:', error);  
         return NextResponse.json({
             msg: "An error occurred",
             error: error.message,

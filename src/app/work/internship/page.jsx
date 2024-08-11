@@ -10,20 +10,40 @@ import { useSearchParams } from 'next/navigation';
 const JobPage = () => {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
+  const [jobs, setJobs] = useState([])
 
-  const filteredData = Data
+
+
+
+    useEffect(() => {
+      const fetchedJob = async () => {
+        try {
+          const response = await axios.get('/api/jobs/fetch');
+          console.log(response.data)
+          setJobs(response.data);
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+  
+      fetchedJob();
+    },[])
+
+    const filteredData = jobs
     .filter(job => job.type === "Internship")
     .filter(job => job.name.toLowerCase().includes(searchQuery.toLowerCase()) || job.description.toLowerCase().includes(searchQuery.toLowerCase()));
+  
+    console.log(jobs)
 
   return (
     <>
       <Navbar />
       <div className='flex flex-col items-center w-full justify-center gap-6 p-6'>
         {
-          filteredData.map((job) => (
+          jobs.map((job) => (
             <Link
-              href={`/work/internship/${job.id}`}
-              key={job.id}
+              href={`/work/internship/${job._id}`}
+              key={job._id}
               passHref
             >
               <div className="w-full max-w-4xl bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 cursor-pointer dark:bg-gray-800 dark:border-gray-700">
