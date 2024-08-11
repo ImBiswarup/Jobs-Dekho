@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import connectToDB from "@/DB/connection";
-import User from "@/model/user";
 import Job from "@/model/job";
 
-export async function GET(request) {
+export async function GET() {
     try {
         await connectToDB(process.env.MONGO_URI);
 

@@ -1,16 +1,16 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../../components/Navbar';
 import Link from 'next/link';
 import { Data } from '../../../../public/data';
 import Image from 'next/image';
+import axios from 'axios';
 
 const JobPage = () => {
 
-  const filteredData = Data.filter(job => job.type != "Internship");
   const [jobs, setJobs] = useState([])
-
+  
   useEffect(() => {
     const fetchedJob = async () => {
       try {
@@ -21,10 +21,11 @@ const JobPage = () => {
         console.error('Error fetching user data:', error);
       }
     }
-
+    
     fetchedJob();
   },[])
-
+  
+  const filteredData = jobs.filter(job => job.type != "Internship");
   console.log(jobs)
 
   return (
@@ -32,7 +33,7 @@ const JobPage = () => {
       <Navbar />
       <div className='flex flex-col items-center w-full justify-center gap-6 p-6'>
         {
-          jobs.map((job) => (
+          filteredData.map((job) => (
             <Link
               href={`/work/jobs/${job._id}`}
               key={job._id}

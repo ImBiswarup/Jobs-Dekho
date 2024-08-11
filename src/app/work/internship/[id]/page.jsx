@@ -1,52 +1,46 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { Data } from '../../../../../public/data';
+import axios from 'axios'; 
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
-import ApplyModal from '@/components/ApplyModal'; 
+import ApplyModal from '@/components/ApplyModal';
 
 const SingleJob = ({ params }) => {
     const [job, setJob] = useState(null);
-    const [jobs, setJobs] = useState([])
-
     const [relatedJobs, setRelatedJobs] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false); 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [jobs, setJobs] = useState([]);
 
     useEffect(() => {
-        const selectedJob = Data.find((job) => job.id === params.id);
-        setJob(selectedJob);
+        const fetchJobs = async () => {
+            try {
+                const response = await axios.get('/api/jobs/fetch');
+                console.log(response.data);
+                setJobs(response.data);
+            } catch (error) {
+                console.error('Error fetching job data:', error);
+            }
+        };
 
-        const related = Data.filter(
-            (relatedJob) => relatedJob.type === selectedJob?.type && relatedJob.id !== selectedJob.id
-        ).slice(0, 10);
-        setRelatedJobs(related);
-    }, [params.id]);
-
-    const handleApply = async (formData) => {
-        console.log('Applying for job:', formData);
-        alert('Job application submitted successfully');
-        setIsModalOpen(false);
-    };
-
-    // if (!job) return null;
+        fetchJobs();
+    }, []);
 
     useEffect(() => {
-        const fetchedJob = async () => {
-          try {
-            const response = await axios.get('/api/jobs/fetch');
-            console.log(response.data)
-            setJobs(response.data);
-          } catch (error) {
-            console.error('Error fetching user data:', error);
-          }
+        if (jobs.length > 0) {
+            // Match params.id with the _id from the API response
+            const selectedJob = jobs.find((job) => job._id === params.id);
+            setJob(selectedJob);
+
+            const related = jobs.filter(
+                (relatedJob) => relatedJob.type === selectedJob?.type && relatedJob._id !== selectedJob._id
+            ).slice(0, 10);
+            setRelatedJobs(related);
         }
-    
-        fetchedJob();
-      },[])
-    
-      console.log(jobs)
+    }, [params.id, jobs]);
+
+    if (!job) return <div>Loading...</div>;
 
     return (
         <>
@@ -71,7 +65,7 @@ const SingleJob = ({ params }) => {
                             <span className="text-xl font-medium text-gray-900">Type: {job.type}</span>
                         </div>
                         <button
-                            onClick={() => setIsModalOpen(true)} 
+                            onClick={() => setIsModalOpen(true)}
                             className="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg px-6 py-3 transition duration-200"
                         >
                             Apply Now
@@ -80,14 +74,14 @@ const SingleJob = ({ params }) => {
                 </div>
 
                 <div className="related-jobs">
-                    <h2 className="text-3xl font-semibold mb-8 text-gray-900">Related Internships</h2>
+                    <h2 className="text-3xl font-semibold mb-8 text-white">Related Internships</h2>
                     <div className="flex flex-wrap -m-4">
                         {relatedJobs.map((relatedJob) => (
-                            <div key={relatedJob.id} className="lg:w-1/3 sm:w-1/2 p-4">
+                            <div key={relatedJob._id} className="lg:w-1/3 sm:w-1/2 p-4">
                                 <Link
                                     href={relatedJob.type === "Internship"
-                                        ? `/work/internship/${relatedJob.id}`
-                                        : `/work/jobs/${relatedJob.id}`}
+                                        ? `/work/internship/${relatedJob._id}`
+                                        : `/work/jobs/${relatedJob._id}`}
                                     passHref
                                 >
                                     <div className="relative rounded-lg overflow-hidden shadow-lg bg-white cursor-pointer transform hover:scale-105 transition-transform duration-300">
@@ -118,10 +112,7 @@ const SingleJob = ({ params }) => {
                 </div>
             </div>
 
-            <ApplyModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-            />
+            <ApplyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} jobId={job._id} params={params} />
         </>
     );
 };

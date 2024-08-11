@@ -1,17 +1,33 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import Link from 'next/link';
-import { Data } from '../../../public/data';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
+import axios from 'axios';
 
 const WorkPage = () => {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
 
-  const filteredData = Data
+  const [jobs, setJobs] = useState([])
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const response = await axios.get('/api/jobs/fetch');
+        console.log(response.data);
+        setJobs(response.data);
+      } catch (error) {
+        console.error('Error fetching job data:', error);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  const filteredData = jobs
     .filter(job => job.type !== "Internship")
     .filter(job => job.name.toLowerCase().includes(searchQuery.toLowerCase()) || job.description.toLowerCase().includes(searchQuery.toLowerCase()));
 
@@ -22,7 +38,7 @@ const WorkPage = () => {
         {
           filteredData.map((job) => (
             <Link
-              href={`/work/jobs/${job.id}`}
+              href={`/work/jobs/${job._id}`}
               key={job.id}
               passHref
             >

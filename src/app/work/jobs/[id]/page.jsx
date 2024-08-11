@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; // Import axios
+import axios from 'axios'; 
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
@@ -74,7 +74,7 @@ const SingleJob = ({ params }) => {
                 </div>
 
                 <div className="related-jobs">
-                    <h2 className="text-3xl font-semibold mb-8 text-gray-900">Related Internships</h2>
+                    <h2 className="text-3xl font-semibold mb-8 text-white">Related Internships</h2>
                     <div className="flex flex-wrap -m-4">
                         {relatedJobs.map((relatedJob) => (
                             <div key={relatedJob._id} className="lg:w-1/3 sm:w-1/2 p-4">

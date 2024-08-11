@@ -1,11 +1,11 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../../components/Navbar';
 import Link from 'next/link';
-import { Data } from '../../../../public/data';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
+import axios from 'axios';
 
 const JobPage = () => {
   const searchParams = useSearchParams();
@@ -30,7 +30,7 @@ const JobPage = () => {
     },[])
 
     const filteredData = jobs
-    .filter(job => job.type === "Internship")
+    .filter(job => job && job.type === "Internship")
     .filter(job => job.name.toLowerCase().includes(searchQuery.toLowerCase()) || job.description.toLowerCase().includes(searchQuery.toLowerCase()));
   
     console.log(jobs)
@@ -40,7 +40,7 @@ const JobPage = () => {
       <Navbar />
       <div className='flex flex-col items-center w-full justify-center gap-6 p-6'>
         {
-          jobs.map((job) => (
+          filteredData.map((job) => (
             <Link
               href={`/work/internship/${job._id}`}
               key={job._id}

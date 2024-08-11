@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Modal from './Modal';
 import AuthForm from './AuthForm';
+import axios from 'axios';
 
 export default function Navbar() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,12 +14,27 @@ export default function Navbar() {
     const [filter, setFilter] = useState('all');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
+    const [tokenData, setTokenData] = useState('');
 
     const router = useRouter();
 
     useEffect(() => {
         setMounted(true);
     }, []);
+
+    useEffect(() => {
+        const getToken = async () => {
+            try {
+                const response = await axios.get('/api/user/getuser');
+                setTokenData(response.data.token);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        }
+
+        getToken();
+    }, []);
+
 
     const handleSearch = () => {
         const query = search.trim();
@@ -45,6 +61,8 @@ export default function Navbar() {
     };
 
     if (!mounted) return null;
+
+    const isLoggedIn = !!tokenData;
 
     return (
         <>
@@ -82,17 +100,25 @@ export default function Navbar() {
                             </div>
                         </div>
                     </div>
+
                     <div className="hidden md:flex items-center space-x-4">
                         <Link href="/" className="text-white hover:text-gray-300 transition duration-200">Home</Link>
                         <Link href="/about" className="text-white hover:text-gray-300 transition duration-200">About</Link>
                         <Link href="/services" className="text-white hover:text-gray-300 transition duration-200">Services</Link>
                         <Link href="/contact" className="text-white hover:text-gray-300 transition duration-200">Contact</Link>
-                        <button
-                            onClick={() => toggleModal(true)}
-                            className="text-white hover:text-gray-300 transition duration-200"
-                        >
-                            Register
-                        </button>
+
+                        {isLoggedIn ? (
+                            <Link href="/user-profile" className="text-white hover:text-gray-300 transition duration-200">
+                                {tokenData.name}
+                            </Link>
+                        ) : (
+                            <button
+                                onClick={() => toggleModal(true)}
+                                className="text-white hover:text-gray-300 transition duration-200"
+                            >
+                                Register
+                            </button>
+                        )}
                     </div>
 
                     <div className="md:hidden">
@@ -125,12 +151,19 @@ export default function Navbar() {
                             <Link href="/about" className="block px-4 py-2 text-white hover:bg-blue-800 transition duration-200">About</Link>
                             <Link href="/services" className="block px-4 py-2 text-white hover:bg-blue-800 transition duration-200">Services</Link>
                             <Link href="/contact" className="block px-4 py-2 text-white hover:bg-blue-800 transition duration-200">Contact</Link>
-                            <button
-                                onClick={() => toggleModal(true)}
-                                className="block px-4 py-2 text-white hover:bg-blue-800 transition duration-200 w-full text-left"
-                            >
-                                Register
-                            </button>
+
+                            {isLoggedIn ? (
+                                <Link href="/user-profile" className="block px-4 py-2 text-white hover:bg-blue-800 transition duration-200 w-full text-left">
+                                    {tokenData.name}
+                                </Link>
+                            ) : (
+                                <button
+                                    onClick={() => toggleModal(true)}
+                                    className="block px-4 py-2 text-white hover:bg-blue-800 transition duration-200 w-full text-left"
+                                >
+                                    Register
+                                </button>
+                            )}
                         </div>
                     </div>
                 )}

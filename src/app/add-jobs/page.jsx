@@ -7,7 +7,7 @@ import { Fragment } from 'react';
 
 const AddJob = () => {
     const [name, setName] = useState('');
-    const [type, setType] = useState('');
+    const [type, setType] = useState('Internship'); // Default to "Internship"
     const [duration, setDuration] = useState('');
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState('');
@@ -29,7 +29,7 @@ const AddJob = () => {
             console.log(response.data);
 
             setName('');
-            setType('');
+            setType('Internship');
             setDuration('');
             setDescription('');
             setTags('');
@@ -50,10 +50,10 @@ const AddJob = () => {
 
             <div className="grid gap-6 mb-6 md:grid-cols-2">
                 <div>
-                    <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900">Job Name</label>
+                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">Job Name</label>
                     <input
                         type="text"
-                        id="first_name"
+                        id="name"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         placeholder="Enter job name"
                         required
@@ -62,22 +62,23 @@ const AddJob = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="company" className="block mb-2 text-sm font-medium text-gray-900">Type</label>
-                    <input
-                        type="text"
-                        id="company"
+                    <label htmlFor="type" className="block mb-2 text-sm font-medium text-gray-900">Type</label>
+                    <select
+                        id="type"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        placeholder="Enter job type"
                         required
                         value={type}
                         onChange={(e) => setType(e.target.value)}
-                    />
+                    >
+                        <option value="Internship">Internship</option>
+                        <option value="Job">Job</option>
+                    </select>
                 </div>
                 <div>
-                    <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900">Duration</label>
+                    <label htmlFor="duration" className="block mb-2 text-sm font-medium text-gray-900">Duration</label>
                     <input
                         type="text"
-                        id="phone"
+                        id="duration"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         placeholder="Enter duration"
                         required
@@ -86,10 +87,10 @@ const AddJob = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="website" className="block mb-2 text-sm font-medium text-gray-900">Description</label>
+                    <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900">Description</label>
                     <input
                         type="text"
-                        id="website"
+                        id="description"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         placeholder="Enter description"
                         required
@@ -98,10 +99,10 @@ const AddJob = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="visitors" className="block mb-2 text-sm font-medium text-gray-900">Tags (comma separated)</label>
+                    <label htmlFor="tags" className="block mb-2 text-sm font-medium text-gray-900">Tags (comma separated)</label>
                     <input
                         type="text"
-                        id="visitors"
+                        id="tags"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         placeholder="e.g. web dev, frontend dev, developer"
                         required

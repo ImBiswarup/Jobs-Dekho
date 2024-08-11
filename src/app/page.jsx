@@ -41,7 +41,7 @@ const HomePage = () => {
     }
 
     fetchedJob();
-  },[])
+  }, [])
 
   console.log(jobs)
 
@@ -62,15 +62,15 @@ const HomePage = () => {
                   <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     {job.name}
                   </h5>
-                  <p className="mt-2 text-gray-600 dark:text-gray-300">
-                    {job.description}
-                  </p>
+                 
                   <div className="flex items-center mt-4 space-x-4">
                     <span className="text-lg font-medium text-gray-900 dark:text-white">{job.duration}</span>
                   </div>
                   <div className="flex items-center justify-between mt-6">
-                    <Link href='#' className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
-                      Apply
+                    <Link
+                      href={job.type === "Internship" ? `/work/internship/${job._id}` : `/work/jobs/${job._id}`}
+                      key={job.id} className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
+                      Details
                     </Link>
                   </div>
                 </div>
