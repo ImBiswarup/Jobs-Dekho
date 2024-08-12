@@ -48,16 +48,11 @@ export async function POST(request) {
         existingUser.token = token;
         await existingUser.save();
 
-        const response = NextResponse.json({
+        return NextResponse.json({
             msg: "Login successful",
             status: true,
             token,
         });
-
-        response.cookies.set('token', token, { httpOnly: true, maxAge: 3600 });
-
-        return response;
-
     } catch (error) {
         console.error("Error in API:", error);
         return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

@@ -25,7 +25,7 @@ const AuthForm = ({ isSignup, toggleAuthMode, closeModal }) => {
             console.log(response.data);
 
             if (response.data.status) {
-                Cookies.set('token', response.data.token, { expires: 1 });
+                Cookies.set('token', response.data.token, { path: '/' });
                 if (isSignup) {
                     alert("Signup successful. Please login.");
                     toggleAuthMode();

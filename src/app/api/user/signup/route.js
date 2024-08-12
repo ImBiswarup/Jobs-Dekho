@@ -24,28 +24,31 @@ export async function POST(request) {
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await User.create({ name, email, password: hashedPassword, role });
 
-        const userPayload = {
-            id: newUser._id,
-            name: newUser.name,
-            email: newUser.email,
-            role: newUser.role,
-        };
+        // const userPayload = {
+        //     id: newUser._id,
+        //     name: newUser.name,
+        //     email: newUser.email,
+        //     role: newUser.role,
+        // };
 
-        const token = jwt.sign(userPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
+        // const token = jwt.sign(userPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        newUser.token = token;  
-        await newUser.save();   
+        // newUser.token = token;  
+        // await newUser.save();   
 
-        const response = NextResponse.json({
-            msg: "User created successfully",
-            status: true,
-            token,
-            user: userPayload
+        // const response = NextResponse.json({
+        //     msg: "User created successfully",
+        //     status: true,
+        //     token,
+        //     user: userPayload
+        // });
+
+        // response.cookies.set('token', token, { httpOnly: true, maxAge: 3600 });
+
+        return NextResponse.json({
+            response,
+            user: newUser
         });
-
-        response.cookies.set('token', token, { httpOnly: true, maxAge: 3600 });
-
-        return response;
 
     } catch (error) {
         console.error("Error in API:", error);

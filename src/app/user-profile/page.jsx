@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -25,21 +25,20 @@ const UserProfile = () => {
         fetchUser();
     }, []);
 
+
     const handleLogout = () => {
         try {
-            Cookies.remove("token", { path: '/' });
-    
-            
-            // setUser(null);
-            // setTokenData(null); 
-    
-            // router.push('/'); 
+            Cookies.remove('token', { path: '/' });
+
+            alert("User logged out successfully");
+
+            router.push('/');
+
         } catch (error) {
             console.error('Error during logout:', error);
             alert('An error occurred while logging out. Please try again.');
         }
     };
-    
 
     if (!user) return <p>Loading...</p>;
 
@@ -55,7 +54,7 @@ const UserProfile = () => {
 
             <h2 className="text-2xl font-semibold mb-4 mt-8">Applied Jobs</h2>
             <ul>
-                {user.applied && user.applied.length > 0 ? (
+                {user?.applied && user.applied.length > 0 ? (
                     user.applied.map((job) => (
                         <li key={job._id} className="mb-4">
                             <Link href={`/work/jobs/${job._id}`}>
