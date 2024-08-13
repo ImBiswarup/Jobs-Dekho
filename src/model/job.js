@@ -10,11 +10,16 @@ const jobSchema = new mongoose.Schema({
         required: true,
     },
     duration: {
-        type: String, 
+        type: String,
         required: true,
     },
     description: {
         type: String,
+        required: true,
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Ensure this matches the User model name
         required: true,
     },
     tags: [
@@ -27,4 +32,4 @@ const jobSchema = new mongoose.Schema({
 
 const Job = mongoose.models.Job || mongoose.model("Job", jobSchema);
 
-module.exports = Job;
+export default Job;

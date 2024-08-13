@@ -1,21 +1,44 @@
 "use client";
 
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 
 const AddJob = () => {
     const [name, setName] = useState('');
-    const [type, setType] = useState('Internship'); // Default to "Internship"
+    const [type, setType] = useState('Job');
     const [duration, setDuration] = useState('');
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [error, setError] = useState(null);
+    const [userId, setUserId] = useState('');
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get('/api/user/getuser');
+                const user = response.data.user;
+
+                if (user && user._id) {
+                    setUserId(user._id);
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+
+        fetchUser();
+    }, []);
 
     const submitData = async () => {
+        if (!userId) {
+            setError('User ID is not available. Please try again.');
+            return;
+        }
+
         setIsSubmitting(true);
         setError(null);
 
@@ -23,13 +46,13 @@ const AddJob = () => {
             const tagsArray = tags.split(',').map(tag => tag.trim());
 
             const response = await axios.post('/api/jobs/add', {
-                name, type, duration, description, tags: tagsArray,
+                name, type, duration, description, tags: tagsArray, createdBy: userId // Use userId here
             });
 
             console.log(response.data);
 
             setName('');
-            setType('Internship');
+            setType('Job');
             setDuration('');
             setDescription('');
             setTags('');
@@ -43,6 +66,7 @@ const AddJob = () => {
             setIsSubmitting(false);
         }
     };
+
 
     return (
         <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">

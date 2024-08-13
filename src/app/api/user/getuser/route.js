@@ -23,7 +23,10 @@ export async function GET() {
 
         const email = decodedToken.email;
 
-        const user = await User.findOne({ email }).populate('applied');
+        const user = await User.findOne({ email })
+            .populate('applied')
+            .populate('added');
+
         if (!user) {
             return NextResponse.json({
                 msg: "User not found",

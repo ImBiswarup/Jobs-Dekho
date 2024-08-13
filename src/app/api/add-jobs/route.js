@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import connectToDB from "@/DB/connection";
 import User from "@/model/user";
-import Job from "@/model/job";
+import Job from "@/model/job";  
 
 export async function POST(request) {
     try {
@@ -26,8 +26,6 @@ export async function POST(request) {
             });
         }
 
-        console.log("user's role: ", existingUser.role)
-
         const job = await Job.findById(jobId);
         if (!job) {
             return NextResponse.json({
@@ -36,15 +34,12 @@ export async function POST(request) {
             });
         }
 
-
-        if (existingUser.role === 'client') {
-            if (!existingUser.applied) {
-                existingUser.applied = [];
-            }
+        if (!existingUser.added) {
+            existingUser.added = [];
         }
 
-        if (!existingUser.applied.includes(jobId)) {
-            existingUser.applied.push(jobId);
+        if (!existingUser.added.includes(jobId)) {
+            existingUser.added.push(jobId);
             await existingUser.save();
         }
 
@@ -54,7 +49,7 @@ export async function POST(request) {
         });
 
     } catch (error) {
-        console.error('Server Error:', error);
+        console.error('Server Error:', error);  
         return NextResponse.json({
             msg: "An error occurred",
             error: error.message,

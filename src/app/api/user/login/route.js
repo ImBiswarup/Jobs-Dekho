@@ -43,7 +43,7 @@ export async function POST(request) {
             role: existingUser.role,
         };
 
-        const token = jwt.sign(userPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign(userPayload, process.env.JWT_SECRET);
 
         existingUser.token = token;
         await existingUser.save();

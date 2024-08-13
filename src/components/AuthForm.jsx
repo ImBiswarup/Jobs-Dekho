@@ -9,7 +9,7 @@ const AuthForm = ({ isSignup, toggleAuthMode, closeModal }) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [role, setRole] = useState("client");
+    const [role, setRole] = useState("clint");
 
     const handleAuth = async () => {
         try {
@@ -86,14 +86,14 @@ const AuthForm = ({ isSignup, toggleAuthMode, closeModal }) => {
                                 <div>
                                     <input
                                         type="radio"
-                                        id="recruter"
+                                        id="recruiter"
                                         name="role"
-                                        value="recruter"
-                                        checked={role === "recruter"}
+                                        value="recruiter"
+                                        checked={role === "recruiter"}
                                         onChange={(e) => setRole(e.target.value)}
                                         className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                                     />
-                                    <label htmlFor="recruter" className="ml-2 text-sm font-medium text-gray-200">
+                                    <label htmlFor="recruiter" className="ml-2 text-sm font-medium text-gray-200">
                                         Recruiter
                                     </label>
                                 </div>
