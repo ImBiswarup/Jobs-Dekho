@@ -30,7 +30,7 @@ export async function POST(request) {
         //     role: newUser.role,
         // };
 
-        // const token = jwt.sign(userPayload, process.env.JWT_SECRET, { expiresIn: '1h' });
+        // const token = jwt.sign(userPayload, process.env.JWT_SECRET);
 
         // newUser.token = token;  
         // await newUser.save();   
@@ -45,7 +45,7 @@ export async function POST(request) {
         // response.cookies.set('token', token, { httpOnly: true, maxAge: 3600 });
 
         return NextResponse.json({
-            response,
+            msg: "User created successfully",
             user: newUser
         });
 

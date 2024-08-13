@@ -9,7 +9,7 @@ const AuthForm = ({ isSignup, toggleAuthMode, closeModal }) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [role, setRole] = useState("clint");
+    const [role, setRole] = useState("client");
 
     const handleAuth = async () => {
         try {
@@ -22,25 +22,23 @@ const AuthForm = ({ isSignup, toggleAuthMode, closeModal }) => {
             const data = isSignup ? { name, email, password, role } : { email, password };
             const response = await axios.post(url, data);
 
-            console.log(response.data);
-
             if (response.data.status) {
-                Cookies.set('token', response.data.token, { path: '/' });
                 if (isSignup) {
-                    alert("Signup successful. Please login.");
-                    toggleAuthMode();
+                    alert(response.data.msg);
+                    toggleAuthMode(); // Switch to login screen after signup
                 } else {
-                    alert("Login successful.");
-                    closeModal();
+                    Cookies.set('token', response.data.token, { path: '/' });
+                    alert(response.data.msg);
+                    closeModal(); // Close the modal after login
                 }
             } else {
                 alert(response.data.msg);
             }
         } catch (error) {
-            console.error("Error:", error.response?.data?.msg || error.message);
-            alert("An error occurred. Please try again.");
+            alert("Error:", error.message);
         }
     };
+
 
     return (
         <div className="space-y-6 p-8 bg-gray-800 text-white rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -139,7 +137,7 @@ const AuthForm = ({ isSignup, toggleAuthMode, closeModal }) => {
                 <p className="text-sm font-light text-gray-400">
                     {isSignup ? 'Already have an account?' : "Don't have an account?"}
                     <Link
-                        href="#"
+                        href="/"
                         onClick={toggleAuthMode}
                         className="font-medium text-blue-500 hover:underline ml-1"
                     >

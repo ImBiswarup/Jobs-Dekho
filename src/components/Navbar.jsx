@@ -46,7 +46,6 @@ export default function Navbar() {
             handleSearch();
         }
     };
-
     const toggleModal = (signup = false) => {
         setIsSignup(signup);
         setIsModalOpen(true);
@@ -55,6 +54,11 @@ export default function Navbar() {
     const closeModal = () => {
         setIsModalOpen(false);
     };
+
+    const toggleAuthMode = () => {
+        setIsSignup((prev) => !prev); // Toggle between signup and login
+    };
+
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -198,8 +202,13 @@ export default function Navbar() {
             </nav>
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>
-                <AuthForm isSignup={isSignup} toggleAuthMode={() => setIsSignup(!isSignup)} closeModal={closeModal} />
+                <AuthForm
+                    isSignup={isSignup}
+                    toggleAuthMode={toggleAuthMode}
+                    closeModal={closeModal}
+                />
             </Modal>
+
         </>
     );
 }
