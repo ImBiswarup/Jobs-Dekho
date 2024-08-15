@@ -25,27 +25,6 @@ export async function POST(request) {
 
         console.log(newUser)
 
-        // const userPayload = {
-        //     id: newUser._id,
-        //     name: newUser.name,
-        //     email: newUser.email,
-        //     role: newUser.role,
-        // };
-
-        // const token = jwt.sign(userPayload, process.env.JWT_SECRET);
-
-        // newUser.token = token;  
-        // await newUser.save();   
-
-        // const response = NextResponse.json({
-        //     msg: "User created successfully",
-        //     status: true,
-        //     token,
-        //     user: userPayload
-        // });
-
-        // response.cookies.set('token', token, { httpOnly: true, maxAge: 3600 });
-
         return NextResponse.json({
             msg: "User created successfully",
             user: newUser

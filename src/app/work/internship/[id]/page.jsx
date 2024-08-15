@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
-import ApplyModal from '@/Components/ApplyModal';
+import ApplyModal from '../../../../Components/ApplyModal';
 
 const SingleJob = ({ params }) => {
     const [job, setJob] = useState(null);

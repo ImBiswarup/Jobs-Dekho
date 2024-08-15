@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import Navbar from '../Components/Navbar';
 import Link from 'next/link';
 import { Data } from '../../public/data';
 import Image from 'next/image';
