@@ -73,7 +73,7 @@ export default function Navbar() {
                 <div className="max-w-7xl mx-auto flex justify-between items-center">
                     <div className="flex items-center space-x-4">
                         <div className="text-white text-2xl font-bold">
-                            <Link href="/">Jobs Dekhoo</Link>
+                            <Link href="/">Jobs Dekhoooo</Link>
                         </div>
                         <div className="hidden md:flex flex-1 justify-center items-center">
                             <div className="flex rounded-lg overflow-hidden shadow-md bg-white w-full max-w-3xl">
