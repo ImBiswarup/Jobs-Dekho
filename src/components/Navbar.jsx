@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Modal from './Modal';
+import Modal from './modal';
 import AuthForm from './AuthForm';
 import axios from 'axios';
 
@@ -56,7 +56,7 @@ export default function Navbar() {
     };
 
     const toggleAuthMode = () => {
-        setIsSignup((prev) => !prev); 
+        setIsSignup((prev) => !prev);
     };
 
     const toggleMenu = () => {
