@@ -1,19 +1,16 @@
 "use client";
 
-import Navbar from '@/components/Navbar'
 import Image from 'next/image'
 
 const AboutPage = () => {
     return (
         <>
-            <Navbar />
             <div className="flex flex-col items-center justify-between min-h-screen bg-gradient-to-b from-blue-600 to-indigo-900 text-white p-6">
-                <header className="text-center mt-10 justify-center">
+                <header className="text-center md:mt-20 mt-32 justify-center">
                     <h1 className="text-5xl font-extrabold">About Us</h1>
                 </header>
 
                 <main className="flex flex-col lg:flex-row items-center w-full max-w-6xl space-y-12 lg:space-y-0 lg:space-x-12 bg-white bg-opacity-10 p-8 rounded-lg shadow-lg mt-16">
-
                     <section className="flex-1">
                         <h2 className="text-4xl italic font-semibold mb-6">Our Motto</h2>
                         <p className="text-lg leading-relaxed">

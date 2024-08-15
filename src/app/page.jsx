@@ -47,7 +47,6 @@ const HomePage = () => {
 
   return (
     <>
-      <Navbar />
       <div className='flex flex-col items-center w-full justify-center gap-6 p-4 mt-[7.5rem] md:mt-[5.2rem]'>
         {
           jobs.map((job) => (

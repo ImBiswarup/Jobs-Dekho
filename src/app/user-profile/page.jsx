@@ -6,11 +6,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 
+
 const UserProfile = () => {
     const [user, setUser] = useState(null);
     const [tokenData, setTokenData] = useState(null);
     const [isRecruiter, setIsRecruiter] = useState('');
     const [jobs, setJobs] = useState([]);
+
     const router = useRouter();
 
     useEffect(() => {
@@ -42,23 +44,21 @@ const UserProfile = () => {
         }
     };
 
+    const openApplyModal = () => {
+        setIsApplyModalOpen(true);
+    };
+
     if (!user) return <p>Loading...</p>;
 
     return (
-        <div className="container mx-auto p-6 bg-white border border-gray-300 rounded-lg">
+        <div className="container mx-auto p-6 bg-white border border-gray-300 rounded-lg md:mt-28 mt-[7.5rem]">
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
-                <button
-                    onClick={handleLogout}
-                    className="px-4 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 transition-all"
-                >
-                    Log out
-                </button>
             </div>
 
             {tokenData && (
                 <div className="bg-gray-100 p-4 rounded mb-4">
-                    <h2 className="text-xl font-semibold text-gray-700">Welcome, {tokenData.name}</h2>
+                    <h2 className="text-xl font-semibold text-gray-700">{tokenData.name}</h2>
                 </div>
             )}
 
@@ -96,10 +96,27 @@ const UserProfile = () => {
                     )}
                 </ul>
             </div>
+
+            <div className="mt-6">
+                <button
+                    onClick={handleLogout}
+                    className="px-4 py-2 hover:bg-red-600 hover:text-white font-medium rounded text-black transition-all"
+                >
+                    Log out
+                </button>
+                {
+                    user.role === "recruiter" && (
+                        <Link
+                            href='/add-jobs'
+                            onClick={openApplyModal}
+                            className="px-4 py-2 hover:bg-green-600 hover:text-white text-black font-medium rounded transition-all ml-4"
+                        >
+                            Add Jobs
+                        </Link>
+                    )
+                }
+            </div>
         </div>
-
-
-
     );
 };
 

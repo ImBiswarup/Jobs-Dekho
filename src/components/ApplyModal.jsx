@@ -8,8 +8,6 @@ const ApplyModal = ({ isOpen, onClose, job, params, jobId }) => {
     const [resume, setResume] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // console.log('Job ID:', params.id);
-
     const handleApply = async () => {
         const filteredJob = Data.find((job) => job.id === params.id);
         console.log('Filtered Job:', filteredJob);

@@ -44,19 +44,4 @@ export const Services = [
         "desc": "Participate in workshops that help you prepare for interviews with mock interviews and feedback.",
         "image": "/images/interview-workshops.jpg"
     },
-    {
-        "name": "Career Counseling",
-        "desc": "Receive personalized career advice and guidance from industry experts to help you navigate your career path.",
-        "image": "/images/career-counseling.jpg"
-    },
-    {
-        "name": "Skill Development Courses",
-        "desc": "Enroll in courses designed to enhance your skills and make you more competitive in the job market.",
-        "image": "/images/skill-development.jpg"
-    },
-    {
-        "name": "Salary Comparison Tools",
-        "desc": "Use our tools to compare salaries for different roles and industries to make informed career decisions.",
-        "image": "/images/salary-comparison.jpg"
-    }
-];
+]

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../../components/Navbar';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
@@ -15,30 +14,29 @@ const JobPage = () => {
 
 
 
-    useEffect(() => {
-      const fetchedJob = async () => {
-        try {
-          const response = await axios.get('/api/jobs/fetch');
-          console.log(response.data)
-          setJobs(response.data);
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        }
+  useEffect(() => {
+    const fetchedJob = async () => {
+      try {
+        const response = await axios.get('/api/jobs/fetch');
+        console.log(response.data)
+        setJobs(response.data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
       }
-  
-      fetchedJob();
-    },[])
+    }
 
-    const filteredData = jobs
+    fetchedJob();
+  }, [])
+
+  const filteredData = jobs
     .filter(job => job && job.type === "Internship")
     .filter(job => job.name.toLowerCase().includes(searchQuery.toLowerCase()) || job.description.toLowerCase().includes(searchQuery.toLowerCase()));
-  
-    console.log(jobs)
+
+  console.log(jobs)
 
   return (
     <>
-      <Navbar />
-      <div className='flex flex-col items-center w-full justify-center gap-6 p-6'>
+      <div className='flex flex-col items-center w-full justify-center gap-6 p-6 md:mt-20 mt-28'>
         {
           filteredData.map((job) => (
             <Link
@@ -63,7 +61,7 @@ const JobPage = () => {
                   <div className="flex items-center justify-between mt-6">
                     <span className="text-lg font-medium text-gray-900 dark:text-white">{job.duration}</span>
                     <span className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
-                      Apply
+                      Details
                     </span>
                   </div>
                 </div>

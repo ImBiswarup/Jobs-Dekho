@@ -23,21 +23,21 @@ const AuthForm = ({ isSignup, toggleAuthMode, closeModal }) => {
             const response = await axios.post(url, data);
 
             if (response.data.status) {
+                Cookies.set('token', response.data.token, { path: '/' });
+                alert(response.data.msg);
+
                 if (isSignup) {
-                    alert(response.data.msg);
-                    toggleAuthMode(); // Switch to login screen after signup
-                } else {
-                    Cookies.set('token', response.data.token, { path: '/' });
-                    alert(response.data.msg);
-                    closeModal(); // Close the modal after login
+                    toggleAuthMode(); 
                 }
+                closeModal(); 
             } else {
                 alert(response.data.msg);
             }
         } catch (error) {
-            alert("Error:", error.message);
+            alert(`Error: ${error.message}`);
         }
     };
+
 
 
     return (

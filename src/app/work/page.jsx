@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../components/Navbar';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
@@ -33,8 +32,7 @@ const WorkPage = () => {
 
   return (
     <>
-      <Navbar />
-      <div className='flex flex-col items-center w-full justify-center gap-6 p-6'>
+      <div className='flex flex-col items-center w-full justify-center gap-6 p-6 md:mt-20 mt-28'>
         {
           filteredData.map((job) => (
             <Link
@@ -59,7 +57,7 @@ const WorkPage = () => {
                   <div className="flex items-center justify-between mt-6">
                     <span className="text-lg font-medium text-gray-900 dark:text-white">{job.duration}</span>
                     <span className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
-                      Apply
+                      Details
                     </span>
                   </div>
                 </div>

@@ -30,11 +30,10 @@ export default function Navbar() {
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
-        }
+        };
 
         getToken();
     }, []);
-
 
     const handleSearch = () => {
         const query = search.trim();
@@ -53,12 +52,12 @@ export default function Navbar() {
 
     const closeModal = () => {
         setIsModalOpen(false);
+        router.push('/user-profile')
     };
 
     const toggleAuthMode = () => {
-        setIsSignup((prev) => !prev); // Toggle between signup and login
+        setIsSignup((prev) => !prev); 
     };
-
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -71,17 +70,17 @@ export default function Navbar() {
     return (
         <>
             <nav className="bg-blue-600 p-4 shadow-lg fixed w-full z-50 top-0">
-                <div className="container mx-auto flex justify-between items-center">
+                <div className="max-w-7xl mx-auto flex justify-between items-center">
                     <div className="flex items-center space-x-4">
                         <div className="text-white text-2xl font-bold">
                             <Link href="/">Jobs Dekhoo</Link>
                         </div>
                         <div className="hidden md:flex flex-1 justify-center items-center">
-                            <div className="flex rounded-lg overflow-hidden shadow-md bg-white w-full max-w-xl">
+                            <div className="flex rounded-lg overflow-hidden shadow-md bg-white w-full max-w-3xl">
                                 <select
                                     value={filter}
                                     onChange={(e) => setFilter(e.target.value)}
-                                    className="p-2.5 text-black border-none outline-none focus:outline-none bg-gray-100 transition duration-200"
+                                    className="text-black border-none outline-none p-2.5 focus:outline-none bg-gray-100 transition duration-200"
                                 >
                                     <option value="all">All</option>
                                     <option value="internship">Intern</option>
@@ -105,7 +104,7 @@ export default function Navbar() {
                         </div>
                     </div>
 
-                    <div className="hidden md:flex items-center space-x-4">
+                    <div className="hidden md:flex items-center gap-x-4">
                         <Link href="/" className="text-white hover:text-gray-300 transition duration-200">Home</Link>
                         <Link href="/about" className="text-white hover:text-gray-300 transition duration-200">About</Link>
                         <Link href="/services" className="text-white hover:text-gray-300 transition duration-200">Services</Link>
@@ -193,7 +192,13 @@ export default function Navbar() {
                         />
                         <button
                             onClick={handleSearch}
-                            className="p-2 bg-blue-500 text-white border-none outline-none focus:outline-none hover:bg-blue-700 transition duration-200"
+                            className="p-2 bg-blue-500 md:hidden block text-white border-none outline-none focus:outline-none hover:bg-blue-700 transition duration-200"
+                        >
+                            &#x3F;
+                        </button>
+                        <button
+                            onClick={handleSearch}
+                            className="p-2 bg-blue-500 md:block hidden text-white border-none outline-none focus:outline-none hover:bg-blue-700 transition duration-200"
                         >
                             Search
                         </button>

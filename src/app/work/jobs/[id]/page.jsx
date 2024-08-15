@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'; 
 import Link from 'next/link';
 import Image from 'next/image';
-import Navbar from '@/components/Navbar';
 import ApplyModal from '@/components/ApplyModal';
 
 const SingleJob = ({ params }) => {
@@ -29,7 +28,6 @@ const SingleJob = ({ params }) => {
 
     useEffect(() => {
         if (jobs.length > 0) {
-            // Match params.id with the _id from the API response
             const selectedJob = jobs.find((job) => job._id === params.id);
             setJob(selectedJob);
 
@@ -44,7 +42,6 @@ const SingleJob = ({ params }) => {
 
     return (
         <>
-            <Navbar />
             <div className="flex flex-col items-center w-full justify-center gap-6 p-4 mt-[7.5rem] md:mt-[5.2rem]">
                 <div className="bg-gray-100 rounded-lg shadow-lg overflow-hidden mb-12">
                     <Image
@@ -74,7 +71,7 @@ const SingleJob = ({ params }) => {
                 </div>
 
                 <div className="related-jobs">
-                    <h2 className="text-3xl font-semibold mb-8 text-white">Related Internships</h2>
+                    <h2 className="text-3xl font-semibold mb-8 text-white">Related Jobs</h2>
                     <div className="flex flex-wrap -m-4">
                         {relatedJobs.map((relatedJob) => (
                             <div key={relatedJob._id} className="lg:w-1/3 sm:w-1/2 p-4">

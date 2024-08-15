@@ -48,6 +48,8 @@ export async function POST(request) {
         existingUser.token = token;
         await existingUser.save();
 
+        console.log(existingUser)
+
         return NextResponse.json({
             msg: "Login successful",
             status: true,
