@@ -27,7 +27,7 @@ const AboutPage = () => {
                             className="rounded-full mb-6 border-4 border-white shadow-lg"
                         />
                         <blockquote className="italic text-lg font-medium">
-                            "Success is not final, failure is not fatal: It is the courage to continue that counts." ~ <strong>Biswarup Ghosh</strong>
+                            &quot;Success is not final, failure is not fatal: It is the courage to continue that counts.&quot; ~ <strong>Biswarup Ghosh</strong>
                         </blockquote>
                     </section>
                 </main>

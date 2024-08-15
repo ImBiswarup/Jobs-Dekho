@@ -112,7 +112,7 @@ export default function Navbar() {
 
                         {isLoggedIn ? (
                             <Link href="/user-profile" className="text-white hover:text-gray-300 transition duration-200">
-                                {tokenData.name}
+                                {tokenData?.name}
                             </Link>
                         ) : (
                             <button

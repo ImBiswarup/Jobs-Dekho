@@ -32,7 +32,7 @@ const AddJob = () => {
         };
 
         fetchUser();
-    }, []);
+    });
 
     const submitData = async () => {
         if (!userId) {

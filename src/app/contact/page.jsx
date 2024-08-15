@@ -3,9 +3,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 
-
-
-const contactPage = () => {
+const ContactPage = () => {
     const [email, setEmail] = useState('')
     const [subject, setSubject] = useState('')
     const [message, setMessage] = useState('')
@@ -55,4 +53,4 @@ const contactPage = () => {
     )
 }
 
-export default contactPage
+export default ContactPage
