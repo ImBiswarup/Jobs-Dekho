@@ -1,8 +1,7 @@
-import mongoose from "mongoose";
-import Job from "@/model/job";
-import User from "@/model/user"; // Import the User model
+import Job from "../../../../model/job";
+import User from "../../../../model/user"; 
 import { NextResponse } from "next/server";
-import connectToDB from "@/DB/connection";
+import connectToDB from "../../../../DB/connection";
 
 export async function POST(request) {
     try {

@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Modal from "@/components/modal";
-import AuthForm from "@/components/AuthForm";
+import Modal from "../components/modal";
+import AuthForm from "../components/AuthForm";
 import axios from 'axios';
 
 export default function Navbar() {

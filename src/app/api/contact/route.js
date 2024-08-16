@@ -1,5 +1,5 @@
-import connectToDB from "@/DB/connection";
-import Message from "@/model/message";
+import connectToDB from "../../../DB/connection";
+import Message from "../../../model/message";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
