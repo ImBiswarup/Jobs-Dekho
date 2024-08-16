@@ -81,7 +81,7 @@ const UserProfile = () => {
                             <p className="text-gray-600">No jobs added yet.</p>
                         )
                     ) : (
-                        user?.applied && user.applied.length > 0 ? (
+                        user?.applied && user?.applied?.length > 0 ? (
                             user.applied.map((job) => (
                                 <li key={job._id} className="p-4 bg-gray-50 border border-gray-300 rounded hover:bg-gray-100 transition-all">
                                     <Link href={`/work/${job.type === "Internship" ? "internship" : "jobs"}/${job._id}`}>
