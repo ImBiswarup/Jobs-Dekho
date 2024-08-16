@@ -17,17 +17,14 @@ export async function POST(request) {
             }, { status: 400 });
         }
 
-        // Create the job
         const createdJob = await Job.create({
             createdBy, name, type, duration, description, tags
         });
 
-        // Update the user to include the job in the "added" array
         await User.findByIdAndUpdate(createdBy, {
             $push: { added: createdJob._id }
         });
 
-        // Populate the createdBy field in the response
         const populatedJob = await Job.findById(createdJob._id)
             .populate({ path: 'createdBy', options: { strictPopulate: false } })
             .exec();

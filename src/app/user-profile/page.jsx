@@ -22,7 +22,7 @@ const UserProfile = () => {
                 setUser(response.data.user);
                 setTokenData(response.data.token);
                 setIsRecruiter(response.data.user.role);
-                setJobs(response.data.user.added);
+                setJobs(response.data.user?.added);
 
                 console.log(response.data.user.added)
             } catch (error) {
@@ -82,7 +82,7 @@ const UserProfile = () => {
                         )
                     ) : (
                         user?.applied && user?.applied?.length > 0 ? (
-                            user.applied.map((job) => (
+                            user?.applied.map((job) => (
                                 <li key={job._id} className="p-4 bg-gray-50 border border-gray-300 rounded hover:bg-gray-100 transition-all">
                                     <Link href={`/work/${job.type === "Internship" ? "internship" : "jobs"}/${job._id}`}>
                                         <p className="text-blue-700 font-medium hover:underline">{job.name}</p>
