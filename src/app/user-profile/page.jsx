@@ -33,6 +33,8 @@ const UserProfile = () => {
         fetchUser();
     }, []);
 
+    console.log('user: ', user)
+
     const handleLogout = () => {
         try {
             Cookies.remove('token', { path: '/' });

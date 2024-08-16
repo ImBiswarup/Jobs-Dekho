@@ -19,7 +19,7 @@ const jobSchema = new mongoose.Schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Ensure this matches the User model name
+        ref: 'User', 
         required: true,
     },
     tags: [
